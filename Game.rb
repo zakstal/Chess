@@ -24,3 +24,7 @@ class Game
   end
 
 end
+
+# pawn only attack to the side and only one forward move
+# check/checkmate
+# user interface
