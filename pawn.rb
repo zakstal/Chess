@@ -12,10 +12,8 @@ class Pawn < Piece
     verticel_moves = goal_pos[0] - start_pos[0]
     #white pawn
     return false if !verticel_moves.between?(1,2) if self.color == :w
-      #black pawn
+    #black pawn
     return false if !verticel_moves.between?(-2,-1) if self.color == :b
-
-    #legal move if goal position is empty or occupy by oppsite color piece
     super
   end
 
