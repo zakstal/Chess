@@ -1,69 +1,15 @@
 #!/usr/bin/env ruby
 # coding: utf-8
-
-class Piece
-
-  attr_accessor :pos, :name
-
-  def initialize(name = 'k', pos = [])
-    @name = name
-    @pos = pos
-    # @delta = [-1,0,1].repeated_permutation(2).to_a - [[0,0]]
-  end
-
-  def move
-  end
-
-  def valid_move?
-  end
-
-  def out_of_bound?(pos)
-    pos.any?{|el| !el.between?(0,7)}
-  end
-end
-
-class SlidingPiece < Piece
-
-  # def move(pos)
-  #   begin
-  #     raise if pos.any? {|ele| !ele.between?(0,7)}
-  #     @pos = pos
-  #  rescue
-  #     puts 'out of bound move, try again'
-  #     retry
-  #   end
-  # end
-
-end
-
-class Pawn < Piece
-
-  def valid_moves?(start_pos,goal_pos,board)
-    return false if out_of_bound?(goal_pos)
-    return false if goal_pos[1] != start_pos[1]
-    verticel_moves = goal_pos[0] - start_pos[0]
-    puts "*********************"
-     Board::SYMBOLS[:wpawn]
- #      #white pawn
-      return false if !verticel_moves.between?(1,2)
- #    else
- #      #black pawn
- #      return false if !verticel_moves.between?(-2,-1)
- #    end
-
-    # empty?(goal_pos, board)
-    true
-  end
-
-  def emtpy?(pos, board)
-    board[pos].nil?
-  end
-end
-
-class SteppingPiece < Piece
-
-end
-
+# %w(piece pawn).each do |file|
+#   require_relative file
+# end
+require_relative 'piece'
+require_relative 'pawn'
+require_relative 'queen'
+require_relative 'bishop'
+require_relative 'rook'
+require_relative 'king'
+require_relative 'knight'
 class Board
 
   SYMBOLS = {
@@ -101,34 +47,34 @@ class Board
   def populate_grid
     # self[[0,0]] = "*"
     grid.size.times do |i|
-      self[[1,i]] = Pawn.new(SYMBOLS[:wpawn])
-      self[[6,i]] = Pawn.new(SYMBOLS[:bpawn])
+      self[[1,i]] = Pawn.new(SYMBOLS[:wpawn],:w)
+      # self[[6,i]] = Pawn.new(SYMBOLS[:bpawn],:b)
     end
-    self[[0,0]] = SlidingPiece.new(SYMBOLS[:wrook])
-    self[[0,2]] = SlidingPiece.new(SYMBOLS[:wbship])
-    self[[0,3]] = SlidingPiece.new(SYMBOLS[:wqueen])
-    self[[0,5]] = SlidingPiece.new(SYMBOLS[:wbship])
-    self[[0,7]] = SlidingPiece.new(SYMBOLS[:wrook])
+    self[[0,0]] = Rook.new(SYMBOLS[:wrook],:w)
+    self[[0,2]] = Bishop.new(SYMBOLS[:wbship],:w)
+    self[[0,3]] = Queen.new(SYMBOLS[:wqueen],:w)
+    self[[0,5]] = Bishop.new(SYMBOLS[:wbship],:w)
+    self[[0,7]] = Rook.new(SYMBOLS[:wrook],:w)
 
-    self[[7,0]] = SlidingPiece.new(SYMBOLS[:brook])
-    self[[7,2]] = SlidingPiece.new(SYMBOLS[:bbship])
-    self[[7,3]] = SlidingPiece.new(SYMBOLS[:bqueen])
-    self[[7,5]] = SlidingPiece.new(SYMBOLS[:bbship])
-    self[[7,7]] = SlidingPiece.new(SYMBOLS[:brook])
+    self[[7,0]] = Rook.new(SYMBOLS[:brook],:b)
+    self[[7,2]] = Bishop.new(SYMBOLS[:bbship],:b)
+    self[[7,3]] = Queen.new(SYMBOLS[:bqueen],:b)
+    self[[7,5]] = Bishop.new(SYMBOLS[:bbship],:b)
+    self[[7,7]] = Rook.new(SYMBOLS[:brook],:b)
 
-    self[[0,1]] = SteppingPiece.new(SYMBOLS[:wknight])
-    self[[0,6]] = SteppingPiece.new(SYMBOLS[:wknight])
-    self[[0,4]] = SteppingPiece.new(SYMBOLS[:wking])
-    self[[7,6]] = SteppingPiece.new(SYMBOLS[:bknight])
-    self[[7,1]] = SteppingPiece.new(SYMBOLS[:bknight])
-    self[[7,4]] = SteppingPiece.new(SYMBOLS[:bking])
+    self[[0,1]] = Knight.new(SYMBOLS[:wknight],:w)
+    self[[0,6]] = Knight.new(SYMBOLS[:wknight],:w)
+    self[[0,4]] = King.new(SYMBOLS[:wking],:w)
+    self[[7,6]] = Knight.new(SYMBOLS[:bknight],:b)
+    self[[7,1]] = Knight.new(SYMBOLS[:bknight],:b)
+    self[[7,4]] = King.new(SYMBOLS[:bking],:b)
   end
 
   def move(start_pos, goal_pos)
     #move the piece
     return if self[start_pos].nil?
     if self[start_pos].valid_moves?(start_pos, goal_pos, self)
-      self[start_pos], self[goal_pos] = self[goal_pos], self[start_pos]
+      self[start_pos], self[goal_pos] = nil, self[start_pos]
     end
 
     self.draw
