@@ -3,9 +3,6 @@ require_relative 'piece'
 class SlidingPiece < Piece
 
   attr_accessor :dir
-  # def initialize(name, color)
-#     super(name, color)
-#   end
 
   def valid_moves?(start_pos, goal_pos, board)
      return false if out_of_bound?(goal_pos)
@@ -16,6 +13,10 @@ class SlidingPiece < Piece
 
   def direction_check?(start_pos, goal_pos, directions)
     #dir = :v, :h, :d
+    a = [1,2,3,4]
+    p a.select do |el| el % 2 == 0 end
+
+
     directions.any? { |dir|
 
       case dir
@@ -33,8 +34,9 @@ class SlidingPiece < Piece
 
   def path_clear?(start_pos,goal_pos,board)
 
-    ((start_pos[1]...goal_pos[1]).to_a-[start_pos[1]]).each do |x|
-      ((start_pos[0]...goal_pos[0]).to_a-[start_pos[0]]).each do |y|
+    ((start_pos[1]...goal_pos[1]).to_a - [start_pos[1]]).each do |x|
+      ((start_pos[0]...goal_pos[0]).to_a - [start_pos[0]]).each do |y|
+
         return false unless board[[y,x]].nil?
       end
     end

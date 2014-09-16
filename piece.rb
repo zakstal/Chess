@@ -1,15 +1,14 @@
 class Piece
 
-  attr_accessor :pos, :name, :color
+  attr_accessor  :name, :color
 
-  def initialize(name, color)
+  def initialize(color)
     @color = color
-    @name = name
-    @pos = pos
-    # @delta = [-1,0,1].repeated_permutation(2).to_a - [[0,0]]
+    @name = ''
   end
 
   def move
+    raise NotImplementedError
   end
 
   def valid_moves?(start_pos, goal_pos, board)

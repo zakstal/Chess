@@ -15,7 +15,6 @@ class SteppingPiece < Piece
   end
 
   def get_delta(start_pos)
-    p self.delta
     self.delta.map{|delt| [delt[0] + start_pos[0], delt[1] + start_pos[1]] }
   end
 end

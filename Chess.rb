@@ -30,7 +30,7 @@ class Board
   attr_accessor :grid
 
   def initialize
-    @grid = Array.new(8) {Array.new(8) }
+    @grid = Array.new(8) { Array.new(8) }
     populate_grid
     self.draw
   end
@@ -48,27 +48,27 @@ class Board
   def populate_grid
     # self[[0,0]] = "*"
     grid.size.times do |i|
-      self[[1,i]] = Pawn.new(SYMBOLS[:wpawn],:w)
-      # self[[6,i]] = Pawn.new(SYMBOLS[:bpawn],:b)
+      self[[1,i]] = Pawn.new(:w)
+      self[[6,i]] = Pawn.new(:b)
     end
-    self[[0,0]] = Rook.new(SYMBOLS[:wrook],:w)
-    self[[0,2]] = Bishop.new(SYMBOLS[:wbship],:w)
-    self[[0,3]] = Queen.new(SYMBOLS[:wqueen],:w)
-    self[[0,5]] = Bishop.new(SYMBOLS[:wbship],:w)
-    self[[0,7]] = Rook.new(SYMBOLS[:wrook],:w)
+    self[[0,0]] = Rook.new(:w)
+    self[[0,2]] = Bishop.new(:w)
+    self[[0,3]] = Queen.new(:w)
+    self[[0,5]] = Bishop.new(:w)
+    self[[0,7]] = Rook.new(:w)
 
-    self[[7,0]] = Rook.new(SYMBOLS[:brook],:b)
-    self[[7,2]] = Bishop.new(SYMBOLS[:bbship],:b)
-    self[[7,3]] = Queen.new(SYMBOLS[:bqueen],:b)
-    self[[7,5]] = Bishop.new(SYMBOLS[:bbship],:b)
-    self[[7,7]] = Rook.new(SYMBOLS[:brook],:b)
+    self[[7,0]] = Rook.new(:b)
+    self[[7,2]] = Bishop.new(:b)
+    self[[7,3]] = Queen.new(:b)
+    self[[7,5]] = Bishop.new(:b)
+    self[[7,7]] = Rook.new(:b)
 
-    self[[0,1]] = Knight.new(SYMBOLS[:wknight],:w)
-    self[[0,6]] = Knight.new(SYMBOLS[:wknight],:w)
-    self[[0,4]] = King.new(SYMBOLS[:wking],:w)
-    self[[7,6]] = Knight.new(SYMBOLS[:bknight],:b)
-    self[[7,1]] = Knight.new(SYMBOLS[:bknight],:b)
-    self[[7,4]] = King.new(SYMBOLS[:bking],:b)
+    self[[0,1]] = Knight.new(:w)
+    self[[0,6]] = Knight.new(:w)
+    self[[0,4]] = King.new(:w)
+    self[[7,6]] = Knight.new(:b)
+    self[[7,1]] = Knight.new(:b)
+    self[[7,4]] = King.new(:b)
   end
 
   def move(start_pos, goal_pos)

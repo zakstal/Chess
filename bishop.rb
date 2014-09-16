@@ -2,8 +2,9 @@ require_relative 'sliding_piece'
 
 class Bishop < SlidingPiece
 
-  def initialize(name, color)
-     super(name, color)
+  def initialize(color)
+     super(color)
+       @name = (color == :b ? "♝" : "♗")
      @dir = [:d]
   end
 
