@@ -13,12 +13,13 @@ require_relative 'knight'
 
 class Board
 
-  attr_accessor :grid
+  attr_accessor :grid, :is_check_mate
 
   def initialize
     @grid = Array.new(8) { Array.new(8) }
     populate_grid
     self.draw
+    @is_check_mate = false
   end
 
   def [](pos)
@@ -56,7 +57,7 @@ class Board
     self[[7,1]] = Knight.new(:b)
     self[[7,4]] = King.new(:b)
 
-    self[[5,6]] = Pawn.new(:w)
+
   end
 
   def move(start_pos, goal_pos)
@@ -66,12 +67,14 @@ class Board
 
       if is_check?(start_pos,goal_pos)
         puts "#{self[start_pos].color.to_s} is in check!"
-        puts "checkmate!" if is_checkmate?(start_pos, goal_pos)
+         if is_checkmate?(start_pos, goal_pos)
+           puts "checkmate!"
+           is_check_mate = true
+         end
       else
         self[start_pos], self[goal_pos] = nil, self[start_pos]
       end
     end
-    self.draw
 
   end
 
@@ -131,6 +134,8 @@ class Board
   end
 
   def is_checkmate?(start_pos, goal_pos)
+    return false unless is_check?(start_pos, goal_pos)
+
     current_color = self[start_pos].color
     king_pos = find_king(current_color)
 
