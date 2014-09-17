@@ -62,7 +62,7 @@ class Board
 
   def move(start_pos, goal_pos)
     #move the piece
-    return if self[start_pos].nil?
+    return nil if self[start_pos].nil?
     if self[start_pos].valid_moves?(start_pos, goal_pos, self)
 
       if is_check?(start_pos,goal_pos)
@@ -70,6 +70,7 @@ class Board
          if is_checkmate?(start_pos, goal_pos)
            puts "checkmate!"
            is_check_mate = true
+           return is_check_mate
          end
       else
         self[start_pos], self[goal_pos] = nil, self[start_pos]

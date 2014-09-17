@@ -43,8 +43,10 @@ class Game
        retry
     end
 
-    board.move(start_pos, goal_pos)
+    step = board.move(start_pos, goal_pos)
 
+    turn.next if step.nil?
+    board.is_check_mate = step if step == true
   end
 
 
