@@ -13,20 +13,6 @@ require_relative 'knight'
 
 class Board
 
-  SYMBOLS = {
-    :wqueen => "\u{2655}",
-    :wking => "\u{2654}",
-    :wrook => "♖",
-    :wbship => "\u{2657}",
-    :wknight => "\u{2658}",
-    :wpawn => "\u{2659}",
-    :bqueen => "\u{265B}",
-    :bking => "\u{265A}",
-    :brook => "\u{265C}",
-    :bbship => "\u{265D}",
-    :bknight => "\u{265E}",
-    :bpawn => "\u{265F}"
-  }
   attr_accessor :grid
 
   def initialize
@@ -98,6 +84,50 @@ class Board
       puts  "  #{board_edge} "
     end
     puts board_edge_letters
+  end
+
+  def get_opponents_moves(current_color)
+    arr = []
+    8.times do |y|
+      8.times do |x|
+        unless self[[y,x]].color == current_color
+          arr << self[[y,x]].all_pos_moves([y,x],self)
+        end
+      end
+    end
+    arr.uniq
+  end
+
+  def is_check?(start_pos,goal_pos)
+    current_color = self[start_pos].color
+    future_board = dup_board
+    future_board.move(start_pos,goal_pos)
+
+    all_opponent_moves = future_board.get_opponents_moves(current_color)
+
+    check_flag = all_opponent_moves.any? do |pos|
+      future_board[pos].is_a?(King)
+    end
+
+    puts "#{current_color.to_s} is in check!" if check_flag
+    check_flag
+  end
+
+
+  #private
+
+  def dup_board
+    futrue_board = Board.new
+    future_board.grid = deep_dup(self.grid)
+    future_board
+  end
+
+  def deep_dup(array)
+    new_array = []
+    array.each do |el|
+      new_array << (el.is_a?(Array) ? deep_dup(el) : (el.nil? ? nil : el.dup))
+    end
+    new_array
   end
 
 end

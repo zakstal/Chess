@@ -13,6 +13,7 @@ class Piece
 
   def valid_moves?(start_pos, goal_pos, board)
      empty?(goal_pos, board) || board[goal_pos].color != self.color
+     !board.is_check?(start_pos,goal_pos)
   end
 
   def empty?(pos, board)

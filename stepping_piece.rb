@@ -17,4 +17,8 @@ class SteppingPiece < Piece
   def get_delta(start_pos)
     self.delta.map{|delt| [delt[0] + start_pos[0], delt[1] + start_pos[1]] }
   end
+
+  def all_pos_moves(start_pos,board)
+    get_delta(start_pos).select{|goal_pos| valid_moves?(start_pos,goal_pos,board)}
+  end
 end

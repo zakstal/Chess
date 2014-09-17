@@ -13,9 +13,9 @@ class SlidingPiece < Piece
 
   def direction_check?(start_pos, goal_pos, directions)
     #dir = :v, :h, :d
-    a = [1,2,3,4]
-    p a.select do |el| el % 2 == 0 end
-
+    # a = [1,2,3,4]
+#     p a.select do |el| el % 2 == 0 end
+#
 
     directions.any? { |dir|
 
@@ -33,15 +33,22 @@ class SlidingPiece < Piece
   end
 
   def path_clear?(start_pos,goal_pos,board)
+    arr = [start_pos]
+    x_delta = goal_pos[1] <=> start_pos[1]
+    y_delta = goal_pos[0] <=> start_pos[0]
 
-    ((start_pos[1]...goal_pos[1]).to_a - [start_pos[1]]).each do |x|
-      ((start_pos[0]...goal_pos[0]).to_a - [start_pos[0]]).each do |y|
-
-        return false unless board[[y,x]].nil?
-      end
+    until arr.last == goal_pos
+      arr << [arr.last[0]+y_delta, arr.last[1]+x_delta]
     end
+    arr -= [start_pos, goal_pos]
 
-    true
+    arr.all? {|pos| board[pos].nil?}
   end
 
+
+
+  def all_pos_moves(start_pos,board)
+    all_moves = (0..7).to_a.repeated_permutation(2).to_a
+    all_moves.select{|goal_pos| valid_moves?(start_pos,goal_pos,board)}
+  end
 end
