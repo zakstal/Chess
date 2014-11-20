@@ -12,6 +12,7 @@ class Game
 
     until won?
       current_turn = turn.next
+      puts "\e[H\e[2J"
       puts "It's #{current_turn} player\'s turn"
       board.draw
       make_move(current_turn)
@@ -25,9 +26,24 @@ class Game
   def get_move
     puts "please enter input:"
     input = gets.chomp
-    m = /(\d).*(\d).*(\d).*(\d)/
-    matches = m.match(input).to_a.map(&:to_i)
-    [matches[1..2], matches[3..4]]
+    m = /(\d).*(\w).*(\d).*(\w)/
+    match = m.match(input).to_a
+    p match
+    puts matches = formatt_inputs(match[1..-1])
+    [matches[0..1], matches[2..3]]
+  end
+
+  def formatt_inputs(matches)
+    puts "here"
+      arr = []
+     matches.each_with_index do |el, i|
+      if i == 0 || i == 2
+        arr << el.to_i
+      else
+        arr << el.ord - 97
+      end
+    end
+    arr
   end
 
   def make_move(current_color)
@@ -51,7 +67,10 @@ class Game
 
 
 end
-
+if __FILE__ == $PROGRAM_NAME
+  game = Game.new
+  game.play
+end
 # pawn only attack to the side and only one forward move
 # check/checkmate
 # user interface

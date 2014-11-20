@@ -81,9 +81,9 @@ class Board
 
 
   def draw
-
+  
     board_edge = Array.new(9, "+").join('---')
-    board_edge_letters = (0..7).to_a.join('   ')
+    board_edge_letters = ("a".."h").to_a.join('   ')
     board_edge_letters = "    #{board_edge_letters}"
 
     # arr = get_opponents_moves(:b)
@@ -174,10 +174,5 @@ class Board
   def future_move(start_pos,goal_pos)
     self[start_pos], self[goal_pos] = nil, self[start_pos]
   end
-
-end
-
-if __FILE__ == $PROGRAM_NAME
-  b = Board.new
 
 end
